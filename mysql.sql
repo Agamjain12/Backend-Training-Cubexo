@@ -113,3 +113,78 @@ VALUES
     -- second highest price
     select price from books where price < (select MAX(price) from books) order by price desc limit 1; 
     -- (select price from books where price < max(price) order by price desc limit 1);
+
+    -- odd even check
+    select id, movie, description, rating from Cinema where MOD(id,2)!=0
+    AND not  description = "boring" order by rating desc;
+
+    -- group by
+    select genre, count(genre) as total_books from books group by genre;
+
+     -- stored procedure 
+    -- creating a procedure
+    DELIMITER //
+
+    CREATE PROCEDURE GetAll()
+    BEGIN
+    SELECT * FROM books;
+    END //
+
+    DELIMITER ;
+    
+    -- calling a procedure
+    call GetAll();
+    
+    -- creating procedure with arguments 
+    
+    DELIMITER //
+    
+    CREATE PROCEDURE getBooks(IN genreName varchar(30))
+    BEGIN
+    SELECT * FROM books where genre = genreName;
+    END //
+    
+    DELIMITER ;
+    
+    -- calling parameterized procedure 
+    call getBooks('fiction');
+    
+    -- deleting a procedure
+    DROP PROCEDURE IF EXISTS getAllT;
+
+     -- TO know user in the system along with the host
+    select SYSTEM_USER();
+    
+    -- creating views 
+    create view Eng_books as
+    select Author_name, book_name, genre from books where language = 'English';
+    
+    -- using view
+    select * from Eng_books;
+    
+   -- creating a procedure with output parameters
+   DELIMITER //
+
+   CREATE PROCEDURE inpout(IN id INT, OUT name VARCHAR(30))
+   BEGIN
+   SELECT Author_name INTO name FROM books WHERE Author_id = id;
+   END //
+
+   DELIMITER ;
+   
+   set @aName = '';
+   
+   call inpout(1,@aName);
+   
+   select @aName;
+
+   -- Index, index is a data structure that keeps a reference to the column indexing makes retreival of data 
+   -- from a table columns fast, but keep in mind that updation on indexed colums take more time so
+   -- only create index for the columns that need to be searched frequently
+   -- An index is a data structure that provides a quick reference to the rows in a table based on the values in one or more columns. 
+   -- Think of an index as an ordered list of values, much like the index at the end of a book that helps you find information quickly.
+   
+
+   -- indexing
+   create INDEX myIndex on books(genre);
+   create INDEX myIndex on books(language, Author_name);
