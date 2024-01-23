@@ -1,6 +1,6 @@
-mongo // to get into mongodb environment
+mongo
 
-creating a user
+# creating a user
 
 create user ({
 user : 'root',
@@ -8,7 +8,9 @@ pwd : 'password',
 roles: ["root"]
 })
 
-use mydatabase; // for creatinga a database;
+# for creatinga a database
+
+use mydatabase;
 
 db.createCollection("myCollection") // creating a collection in database
 
@@ -231,46 +233,42 @@ db.users.deleteOne({ name: 'Michael Baker' }); # deleteOne is used to delete one
 
 db.users.deleteMany({ age: { $gte: 30 } } ); # deleteMany is used to delete multiple documents based on the given criteria.
 
-
-
-
 # Embedded vs Linked documents
 
 ###### Embedded documents.
 
 MongoDB follows document approach where there are documents instead of rows as in SQL.
 Embedded documents are documents where one document is stored inside another document.
-    {
-        "_id": ObjectId("6123456789abcdef0123456"),
-        "title": "Article Title",
-        "content": "This is the content of the article.",
-        "author": {
-            "name": "John Doe",
-            "email": "johndoe@example.com"
-        },
-        "comments": [
-            {
-                "author": "Jane Smith",
-                "comment": "Great article!"
-            },
-            {
-                "author": "Bob Johnson",
-                "comment": "Well written!"
-            }
-        ]
-    }
-
+{
+"\_id": ObjectId("6123456789abcdef0123456"),
+"title": "Article Title",
+"content": "This is the content of the article.",
+"author": {
+"name": "John Doe",
+"email": "johndoe@example.com"
+},
+"comments": [
+{
+"author": "Jane Smith",
+"comment": "Great article!"
+},
+{
+"author": "Bob Johnson",
+"comment": "Well written!"
+}
+]
+}
 
 ###### # Linked or Referenced documents.
 
 Referenced documents are stored in a separate collection with references to each other.
-    {
-        "_id": ObjectId("6123456789abcdef0123456"),
-        "title": "Article Title",
-        "content": "This is the content of the article.",
-        "author": ObjectId("a123456789abcdef01234567"),
-        "comments": [
-            ObjectId("c123456789abcdef01234567"),
-            ObjectId("c223456789abcdef01234567")
-        ]
-    }
+{
+"\_id": ObjectId("6123456789abcdef0123456"),
+"title": "Article Title",
+"content": "This is the content of the article.",
+"author": ObjectId("a123456789abcdef01234567"),
+"comments": [
+ObjectId("c123456789abcdef01234567"),
+ObjectId("c223456789abcdef01234567")
+]
+}
