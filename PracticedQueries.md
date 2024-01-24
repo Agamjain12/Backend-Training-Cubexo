@@ -272,3 +272,41 @@ ObjectId("c123456789abcdef01234567"),
 ObjectId("c223456789abcdef01234567")
 ]
 }
+
+# INDEXING
+
+db.user.createIndex({name : 1})
+(1 implies index are created for ascending order retrieval, for descending do -1)
+
+###### unique indexing
+
+db.user.createIndex({location : 1}, {unique : true})
+(value of this filed will be unique in every document)
+
+###### partial indexing
+
+db.blogPosts.createIndex({publishDate : 1}, { partialFilterExpression : {status : "published"}})
+(indexes are created only for the fields(publishDate) where status is publised)
+
+###### background option
+
+db.collection.createIndex({ name: 1 }, { background: true });
+(If true, the index creation will be performed in the background, allowing other operations on the database to continue.)
+
+###### sparse
+
+db.users.createIndex({ membershipExpiration: 1 }, { sparse: true });
+(only creates index for the user who have an membersiExpiration date)
+
+###### Expire after seconds
+
+db.logs.createIndex({ createdAt: 1 }, { expireAfterSeconds: 3600 });
+(records are deleted after specified time, useful for temporal data such as log,session,cache data)
+
+### VIEW
+
+db.createView("myView", "blogPosts", [{$match : {status : "published"}}, {$project : {_id:0}}])
+
+### SORT
+
+db.user.find().sort({ age : -1})
